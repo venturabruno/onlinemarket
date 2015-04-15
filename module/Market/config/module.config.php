@@ -14,38 +14,64 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'market' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    // Change this to something specific to your module
-                    'route'    => '/market',
-                    'defaults' => array(
-                        // Change this value to reflect the namespace in which
-                        // the controllers for your module are found
-                    	'controller'    => 'market-index-controller',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    // This route is a sane default when developing a module;
-                    // as you solidify the routes for your module, however,
-                    // you may want to remove it and replace it with more
-                    // specific routes.
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+        	'home' => array(
+        		'type'    => 'Literal',
+        		'options' => array(
+        			'route'    => '/',
+        			'defaults' => array(
+        				'controller'    => 'market-index-controller',
+        				'action'        => 'index',
+        			)
+        		),
+        	),
+        	'market' => array(
+        		'type'    => 'Literal',
+        		'options' => array(
+        			'route'    => '/market',
+        			'defaults' => array(
+        				'controller'    => 'market-index-controller',
+        				'action'        => 'index',
+        			)
+        		),
+        		'may_terminate' => true,
+        		'child_routes' => array(
+        			'view' => array(
+        				'type'    => 'Literal',
+        				'options' => array(
+		        			'route'    => '/view',
+		        			'defaults' => array(
+		        				'controller'    => 'market-index-controller',
+		        				'action'        => 'index',
+		        			),
+        				),
+        				'may_terminate' => true,
+        				'child_routes' => array(
+        					'index'   => array(
+        						'type'    => 'Segment',
+        						'options' => array(
+        							'route'    => '/:main[/:category]'
+        						),
+        					),
+        					'item'   => array(
+        						'type'    => 'Segment',
+        						'options' => array(
+        							'route'    => '/:item[/:itemId]'
+        						),
+        					)
+        				)
+        			),
+        			'post' => array(
+        				'type'    => 'Literal',
+        				'options' => array(
+        					'route'    => '/post',
+        					'defaults' => array(
+        						'controller'    => 'market-post-controller',
+        						'action'        => 'index',
+        					)
+        				),
+        			),
+        		)
+        	),
         ),
     ),
     'view_manager' => array(
